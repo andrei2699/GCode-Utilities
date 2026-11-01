@@ -2,6 +2,8 @@ import './style.css';
 import { setupCounter } from './counter.ts';
 import { setupTheme } from './theme.ts';
 import { setupCanvasRenderer } from './renderer/canvas-renderer.ts';
+import { G0G1Command, type GCodeCommand } from './commands/command.ts';
+import { CommandExecutor } from './commands/command-executor.ts';
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <section id="header" class="panel toolbar">
@@ -27,7 +29,13 @@ canvasRenderer.onClick((position) => {
   console.log('clicked at', position);
 });
 
-canvasRenderer.ctx.beginPath();
-canvasRenderer.ctx.moveTo(100, 100);
-canvasRenderer.ctx.lineTo(200, 200);
-canvasRenderer.ctx.stroke();
+const executor = new CommandExecutor(canvasRenderer);
+
+const commands: GCodeCommand[] = [
+  new G0G1Command(100, 100),
+  new G0G1Command(200, 200),
+  new G0G1Command(300, 200),
+  new G0G1Command(200, 300),
+];
+
+executor.execute(commands);
