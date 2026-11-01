@@ -1,0 +1,36 @@
+name: CI visualizer
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['**']
+
+jobs:
+  ci:
+    name: Check, Test & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - uses: voidzero-dev/setup-vp@v1.22.0
+        with:
+          node-version: '24'
+          cache: true
+
+      - name: Install dependencies
+        working-directory: gcode-visualizer
+        run: vp install
+
+      - name: Lint & type-check
+        working-directory: gcode-visualizer
+        run: vp check
+
+      - name: Test
+        working-directory: gcode-visualizer
+        run: vp test --run
+
+      - name: Build
+        working-directory: gcode-visualizer
+        run: vp build
