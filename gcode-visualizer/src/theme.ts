@@ -1,5 +1,4 @@
-﻿export function setupTheme(selector: string) {
-  const themeToggle = document.querySelector<HTMLButtonElement>(selector)!;
+﻿export function setupTheme(themeToggle: HTMLButtonElement) {
   const prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)');
 
   function updateThemeToggle(isDark: boolean) {

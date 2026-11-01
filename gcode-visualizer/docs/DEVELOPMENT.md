@@ -36,7 +36,6 @@ Use `data-theme="light"` to force light mode, or remove the attribute to follow 
 
 | Class                                                                    | Use                                                                              |
 | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
-| `.app-shell`                                                             | Full-height application wrapper                                                  |
 | `.topbar`                                                                | Application header                                                               |
 | `.brand`, `.brand-mark`                                                  | Header identity                                                                  |
 | `.topbar-actions`, `.toolbar`, `.button-group`                           | Horizontal groups of actions                                                     |
