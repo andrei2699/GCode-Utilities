@@ -1,4 +1,4 @@
-﻿import { G0G1Command, type GCodeCommand } from './command.ts';
+﻿import { G0G1Command, G2G3Command, type GCodeCommand } from './command.ts';
 
 export class CommandParser {
   parse(commandString: string): GCodeCommand[] {
@@ -11,6 +11,8 @@ export class CommandParser {
 
       if (trimmedLine.startsWith('G0') || trimmedLine.startsWith('G1')) {
         commands.push(this.parseG0G1Command(trimmedLine));
+      } else if (trimmedLine.startsWith('G2') || trimmedLine.startsWith('G3')) {
+        commands.push(this.parseG2G3Command(trimmedLine));
       }
     }
 
@@ -28,6 +30,29 @@ export class CommandParser {
     }
 
     return new G0G1Command(command.x, command.y, command.z, command.e, command.f);
+  }
+
+  private parseG2G3Command(line: string): GCodeCommand {
+    const regex = /([XYZIJEFKR])([-+]?[0-9]*\.?[0-9]+)/g;
+    const command: any = {};
+    let match;
+
+    while ((match = regex.exec(line)) !== null) {
+      const axis = match[1];
+      command[axis.toLowerCase()] = parseFloat(match[2]);
+    }
+
+    return new G2G3Command(
+      line.startsWith('G2'),
+      command.x,
+      command.y,
+      command.z,
+      command.i,
+      command.j,
+      command.f,
+      command.k,
+      command.r,
+    );
   }
 
   private removeComments(line: string): string {
