@@ -319,7 +319,7 @@ function convertArcToGCode(
   if (sweep && deltaAngle < 0) deltaAngle += 2 * Math.PI;
 
   if (Math.abs(rx - ry) <= Number.EPSILON * Math.max(rx, ry) * 16) {
-    return [new G2G3Command(sweep, endX, endY, undefined, centerX - startX, centerY - startY)];
+    return [new G2G3Command(!sweep, endX, endY, undefined, centerX - startX, centerY - startY)];
   }
 
   return linearizeEllipseArc(

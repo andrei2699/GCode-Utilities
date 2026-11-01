@@ -88,22 +88,20 @@ describe('parsePathData', () => {
     expect(last.y).toBeCloseTo(5, 6);
   });
 
-  it('A with equal radii produces a G2/G3 arc command', () => {
-    // Semi-circle: start (10,0) → end (-10,0), r=10, sweep=1 (CCW)
+  it('A with sweep=1 produces a counter-clockwise G3 arc', () => {
     const cmds = parsePathData('M 10 0 A 10 10 0 0 1 -10 0');
-    const arc = cmds.find((c) => c instanceof G2G3Command);
+    const arc = cmds.find((c) => c instanceof G2G3Command) as G2G3Command;
     expect(arc).toBeDefined();
+    // SVG sweep=1 means CCW → GCode G3 (clockwise=false)
+    expect(arc.clockwise).toBe(false);
   });
 
   it('A with sweep=0 produces a clockwise G2 arc', () => {
     const cmds = parsePathData('M 10 0 A 10 10 0 0 0 -10 0');
     const arc = cmds.find((c) => c instanceof G2G3Command) as G2G3Command;
     expect(arc).toBeDefined();
-    expect(arc.clockwise).toBe(false); // sweep=0 → not swept CCW, so G3? verify sign
-    // The arc center for (10,0)→(-10,0) with r=10 is at (0,0).
-    // sweep flag 0 = clockwise in SVG. In the converter, sweep→clockwise mapping
-    // means sweep=false → G2 (clockwise). Let's just ensure we get an arc.
-    expect(arc).toBeInstanceOf(G2G3Command);
+    // SVG sweep=0 means CW → GCode G2 (clockwise=true)
+    expect(arc.clockwise).toBe(true);
   });
 
   it('A degenerate same-point arc emits no commands', () => {
