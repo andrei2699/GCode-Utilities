@@ -33,9 +33,10 @@ export class CommandExecutor {
       const { x, y, i, j, r } = command;
       const endX = x ?? this.x;
       const endY = y ?? this.y;
-      const center = r === undefined
-        ? { x: (i ?? 0) + this.x, y: (j ?? 0) + this.y }
-        : this.getRadiusArcCenter(endX, endY, r, command.clockwise);
+      const center =
+        r === undefined
+          ? { x: (i ?? 0) + this.x, y: (j ?? 0) + this.y }
+          : this.getRadiusArcCenter(endX, endY, r, command.clockwise);
 
       const radius = Math.hypot(this.x - center.x, this.y - center.y);
       const startAngle = Math.atan2(this.y - center.y, this.x - center.x);
@@ -60,7 +61,9 @@ export class CommandExecutor {
     const tolerance = Number.EPSILON * Math.max(1, radius, chordLength) * 16;
 
     if (radius === 0 || chordLength === 0 || chordLength > radius * 2 + tolerance) {
-      throw new RangeError('Invalid radius-format arc: radius must span distinct start and end points.');
+      throw new RangeError(
+        'Invalid radius-format arc: radius must span distinct start and end points.',
+      );
     }
 
     const halfChord = chordLength / 2;
@@ -70,8 +73,14 @@ export class CommandExecutor {
     const perpendicularX = -deltaY / chordLength;
     const perpendicularY = deltaX / chordLength;
     const centers = [
-      { x: midpointX + perpendicularX * centerOffset, y: midpointY + perpendicularY * centerOffset },
-      { x: midpointX - perpendicularX * centerOffset, y: midpointY - perpendicularY * centerOffset },
+      {
+        x: midpointX + perpendicularX * centerOffset,
+        y: midpointY + perpendicularY * centerOffset,
+      },
+      {
+        x: midpointX - perpendicularX * centerOffset,
+        y: midpointY - perpendicularY * centerOffset,
+      },
     ];
     const wantsMajorArc = signedRadius < 0;
 
