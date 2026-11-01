@@ -718,3 +718,9 @@ code,
     min-height: 55vh;
   }
 }
+
+#canvas {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-viewport);
+}
