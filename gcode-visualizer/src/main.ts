@@ -3,6 +3,7 @@ import { setupTheme } from './theme.ts';
 import { setupCanvasRenderer } from './renderer/canvas-renderer.ts';
 import { CommandExecutor } from './commands/command-executor.ts';
 import { setupDrawButton } from './drawer.ts';
+import { CommandParser } from './commands/command-parser.ts';
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <section id="header" class="panel toolbar">
@@ -33,5 +34,6 @@ canvasRenderer.onClick((position) => {
 });
 
 const executor = new CommandExecutor(canvasRenderer);
+const parser = new CommandParser();
 
-setupDrawButton(document.querySelector<HTMLButtonElement>('#draw-button')!, executor);
+setupDrawButton(document.querySelector<HTMLButtonElement>('#draw-button')!, executor, parser);

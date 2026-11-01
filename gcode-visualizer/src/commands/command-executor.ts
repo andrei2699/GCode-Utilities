@@ -12,6 +12,7 @@ export class CommandExecutor {
 
   execute(commands: GCodeCommand[]): void {
     const ctx = this.renderer.ctx;
+    ctx.reset();
 
     ctx.beginPath();
 
