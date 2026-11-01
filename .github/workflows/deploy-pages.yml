@@ -30,6 +30,7 @@ jobs:
         with:
           node-version: '24'
           cache: true
+          working-directory: gcode-visualizer
 
       - name: Install dependencies
         working-directory: gcode-visualizer

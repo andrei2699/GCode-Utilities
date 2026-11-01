@@ -20,7 +20,9 @@ export function setupNavigationButtons(navItems: NavigationItem[]) {
   function resolveActive(): string {
     const path = window.location.pathname;
     const matched = navItems.find((item) => path === `${base}${item.targetUrl}`);
-    if (matched) return matched.targetUrl;
+    if (matched) {
+      return matched.targetUrl;
+    }
     const defaultItem = navItems.find((item) => item.isDefaultRoute);
     return defaultItem?.targetUrl ?? navItems[0].targetUrl;
   }
