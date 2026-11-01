@@ -1,0 +1,72 @@
+﻿# G-code Examples
+
+## Example 1:
+
+```gcode
+G21 G90 G17
+
+G00 X500.0 Y300.0
+
+(Lobes using G3 and G2)
+G3 X400.0 Y400.0 R100.0 F1500.0
+G2 X300.0 Y300.0 R100.0
+G3 X400.0 Y200.0 R100.0
+G2 X500.0 Y300.0 R100.0
+
+(Inner Hub Circle)
+G00 X450.0 Y300.0
+G3 X350.0 Y300.0 R50.0
+G3 X450.0 Y300.0 R50.0
+
+G00 X400.0 Y300.0 Z50.0
+M30
+```
+
+## Example 2:
+
+```gcode
+G21 G90 G17
+
+G00 X500.0 Y300.0
+
+(Lobes using G3 and G2)
+G3 X400.0 Y400.0 R100.0 F1500.0
+G2 X300.0 Y300.0 R100.0
+G3 X400.0 Y200.0 R100.0
+G2 X500.0 Y300.0 R100.0
+
+(Inner Hub Circle)
+G00 X450.0 Y300.0
+G3 X350.0 Y300.0 R50.0
+G3 X450.0 Y300.0 R50.0
+
+G00 X400.0 Y300.0 Z50.0
+M30
+```
+
+## Example 3:
+
+```gcode
+G21 G90 G17
+
+G00 X400.0 Y300.0
+G01 Z5.0 F1000.0
+
+(Upper Semi-Circle Arcs using I,J vectors)
+(I = X offset to center, J = Y offset to center)
+G2 X420.0 Y300.0 I10.0 J0.0 F2000.0
+G2 X450.0 Y300.0 I15.0 J0.0
+G2 X500.0 Y300.0 I25.0 J0.0
+G2 X580.0 Y300.0 I40.0 J0.0
+
+(Move to outer left edge)
+G00 X120.0 Y300.0
+(Lower Semi-Circle Arcs back to center)
+G3 X220.0 Y300.0 I50.0 J0.0
+G3 X300.0 Y300.0 I40.0 J0.0
+G3 X350.0 Y300.0 I25.0 J0.0
+G3 X400.0 Y300.0 I25.0 J0.0
+
+G00 Z50.0
+M30
+```
