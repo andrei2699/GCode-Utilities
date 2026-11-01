@@ -12,24 +12,16 @@ export function setupPlotterPage() {
   const executor = new CommandExecutor(canvasRenderer);
   const parser = new CommandParser();
 
-  setupDrawButton(
-    document.querySelector<HTMLButtonElement>('#draw-button')!,
-    document.querySelector<HTMLTextAreaElement>('#gcode-input-plotter')!,
-    executor,
-    parser,
-  );
-}
+  const inputElement = document.querySelector<HTMLTextAreaElement>('#gcode-input-plotter')!;
+  const drawButton = document.querySelector<HTMLButtonElement>('#draw-button')!;
 
-function setupDrawButton(
-  drawButton: HTMLButtonElement,
-  inputElement: HTMLTextAreaElement,
-  executor: CommandExecutor,
-  parser: CommandParser,
-) {
-  drawButton.addEventListener('click', () => {
+  drawButton.addEventListener('click', plotGCode);
+  inputElement.addEventListener('input', plotGCode);
+
+  function plotGCode() {
     const gcode = inputElement.value;
     const commands: GCodeCommand[] = parser.parse(gcode);
 
     executor.execute(commands);
-  });
+  }
 }
