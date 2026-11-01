@@ -35,7 +35,9 @@ export function parsePathData(d: string): GCodeCommand[] {
         for (let index = 0; index + 1 < values.length; index += 2) {
           const x = isRelative ? currentX + values[index] : values[index];
           const y = isRelative ? currentY + values[index + 1] : values[index + 1];
-          commands.push(new G0G1Command(x, y, undefined, undefined, undefined, isMove && isFirstPoint));
+          commands.push(
+            new G0G1Command(x, y, undefined, undefined, undefined, isMove && isFirstPoint),
+          );
           currentX = x;
           currentY = y;
           if (isMove && isFirstPoint) {
@@ -66,7 +68,12 @@ export function parsePathData(d: string): GCodeCommand[] {
       case 'q':
       case 't': {
         const commandTypeLower = commandType.toLowerCase();
-        const parameterCount = commandTypeLower === 'c' ? 6 : commandTypeLower === 's' || commandTypeLower === 'q' ? 4 : 2;
+        const parameterCount =
+          commandTypeLower === 'c'
+            ? 6
+            : commandTypeLower === 's' || commandTypeLower === 'q'
+              ? 4
+              : 2;
 
         for (let index = 0; index + parameterCount - 1 < values.length; index += parameterCount) {
           let control1X = currentX;
