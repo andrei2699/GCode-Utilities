@@ -9,8 +9,8 @@ export class CommandParser {
       const trimmedLine = this.removeComments(line);
       if (trimmedLine === '') continue;
 
-      if (trimmedLine.startsWith('G0') || trimmedLine.startsWith('G1')) {
-        commands.push(this.parseG0G1Command(trimmedLine));
+      if (/^G0(?:\s|$)/.test(trimmedLine) || /^G1(?:\s|$)/.test(trimmedLine)) {
+        commands.push(this.parseG0G1Command(trimmedLine, trimmedLine.startsWith('G0')));
       } else if (trimmedLine.startsWith('G2') || trimmedLine.startsWith('G3')) {
         commands.push(this.parseG2G3Command(trimmedLine));
       }
@@ -19,7 +19,7 @@ export class CommandParser {
     return commands;
   }
 
-  private parseG0G1Command(line: string): GCodeCommand {
+  private parseG0G1Command(line: string, rapid: boolean): GCodeCommand {
     const regex = /([XYZEF])([-+]?[0-9]*\.?[0-9]+)/g;
     const command: any = {};
     let match;
@@ -29,7 +29,7 @@ export class CommandParser {
       command[axis.toLowerCase()] = parseFloat(match[2]);
     }
 
-    return new G0G1Command(command.x, command.y, command.z, command.e, command.f);
+    return new G0G1Command(command.x, command.y, command.z, command.e, command.f, rapid);
   }
 
   private parseG2G3Command(line: string): GCodeCommand {

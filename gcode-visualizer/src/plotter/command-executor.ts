@@ -1,5 +1,5 @@
-﻿import { CanvasRenderer } from '../renderer/canvas-renderer.ts';
-import { G0G1Command, G2G3Command, type GCodeCommand } from './command.ts';
+﻿import { CanvasRenderer } from './canvas-renderer.ts';
+import { G0G1Command, G2G3Command, type GCodeCommand } from '../commands/command.ts';
 
 export class CommandExecutor {
   private renderer: CanvasRenderer;
@@ -13,6 +13,8 @@ export class CommandExecutor {
   execute(commands: GCodeCommand[]): void {
     const ctx = this.renderer.ctx;
     ctx.reset();
+    this.x = 0;
+    this.y = 0;
 
     ctx.beginPath();
 
@@ -28,7 +30,11 @@ export class CommandExecutor {
       const { x, y } = command;
       this.x = x ?? this.x;
       this.y = y ?? this.y;
-      ctx.lineTo(this.x, this.y);
+      if (command.rapid) {
+        ctx.moveTo(this.x, this.y);
+      } else {
+        ctx.lineTo(this.x, this.y);
+      }
     } else if (command instanceof G2G3Command) {
       const { x, y, i, j, r } = command;
       const endX = x ?? this.x;

@@ -1,10 +1,8 @@
 import './style.css';
 import { setupTheme } from './theme.ts';
-import { setupCanvasRenderer } from './renderer/canvas-renderer.ts';
-import { CommandExecutor } from './commands/command-executor.ts';
-import { setupDrawButton } from './drawer.ts';
-import { CommandParser } from './commands/command-parser.ts';
 import { setupNavigationButtons } from './navigation.ts';
+import { setupPlotterPage } from './pages/plotter-page.ts';
+import { setupSvgToGCodePage } from './pages/svg-to-gcode-page.ts';
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <section id="header" class="panel toolbar">
@@ -38,7 +36,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         <div class="panel-body" style="display: flex; flex-direction: row; gap: 16px; align-items: flex-start; padding: 16px;">
           <textarea id="svg-input-svg-to-gcode" placeholder="Enter SVG here..." rows="36" cols="80"></textarea>
          
-          <textarea id="gcode-input-svg-to-gcode" placeholder="Enter G-code here..." rows="36" cols="80"></textarea>
+          <textarea id="gcode-output-svg-to-gcode" placeholder="Output G-Code will be here..." rows="36" cols="80"></textarea>
         </div>
     </div>
 </section>
@@ -60,17 +58,5 @@ setupNavigationButtons([
   },
 ]);
 
-const canvasRenderer = setupCanvasRenderer(document.querySelector<HTMLCanvasElement>('#canvas')!);
-canvasRenderer.onClick((position) => {
-  console.log('clicked at', position);
-});
-
-const executor = new CommandExecutor(canvasRenderer);
-const parser = new CommandParser();
-
-setupDrawButton(
-  document.querySelector<HTMLButtonElement>('#draw-button')!,
-  document.querySelector<HTMLTextAreaElement>('#gcode-input-plotter')!,
-  executor,
-  parser,
-);
+setupPlotterPage();
+setupSvgToGCodePage();
