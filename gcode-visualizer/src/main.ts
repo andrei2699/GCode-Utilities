@@ -1,8 +1,8 @@
-import "./style.css";
-import { setupCounter } from "./counter.ts";
-import { setupTheme } from "./theme.ts";
+import './style.css';
+import { setupCounter } from './counter.ts';
+import { setupTheme } from './theme.ts';
 
-document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
+document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <section id="header" class="panel toolbar">
     <header class="panel-header"><h1>G-CODE Visualizer</h1></header>
 
@@ -36,6 +36,6 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 
 `;
 
-setupCounter(document.querySelector<HTMLButtonElement>("#counter")!);
+setupCounter(document.querySelector<HTMLButtonElement>('#counter')!);
 
-setupTheme("#theme-toggle");
+setupTheme('#theme-toggle');
