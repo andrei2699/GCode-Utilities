@@ -1,9 +1,8 @@
 import './style.css';
-import { setupCounter } from './counter.ts';
 import { setupTheme } from './theme.ts';
 import { setupCanvasRenderer } from './renderer/canvas-renderer.ts';
-import { G0G1Command, type GCodeCommand } from './commands/command.ts';
 import { CommandExecutor } from './commands/command-executor.ts';
+import { setupDrawButton } from './drawer.ts';
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <section id="header" class="panel toolbar">
@@ -15,27 +14,24 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 </section>
 
 <section id="center">
-    <canvas id="canvas" width="800" height="600">Your browser does not seem to support HTML canvas.</canvas>
-    <button id="counter" type="button" class="counter"></button>
+    <div class="panel" style="display: flex; flex-direction: row; gap: 16px; align-items: flex-start; padding: 16px;">
+        <canvas id="canvas" width="800" height="600">Your browser does not seem to support HTML canvas.</canvas>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <textarea id="gcode-input" placeholder="Enter G-code here..." rows="36" cols="50"></textarea>
+          <div class="spacer"></div>
+          <button id="draw-button" type="button" class="counter">Draw</button>
+        </div>
+    </div>
 </section>
 
 `;
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!);
 setupTheme(document.querySelector<HTMLButtonElement>('#theme-toggle')!);
 const canvasRenderer = setupCanvasRenderer(document.querySelector<HTMLCanvasElement>('#canvas')!);
-
 canvasRenderer.onClick((position) => {
   console.log('clicked at', position);
 });
 
 const executor = new CommandExecutor(canvasRenderer);
 
-const commands: GCodeCommand[] = [
-  new G0G1Command(100, 100),
-  new G0G1Command(200, 200),
-  new G0G1Command(300, 200),
-  new G0G1Command(200, 300),
-];
-
-executor.execute(commands);
+setupDrawButton(document.querySelector<HTMLButtonElement>('#draw-button')!, executor);
