@@ -37,9 +37,7 @@ jobs:
 
       - name: Build
         working-directory: gcode-visualizer
-        run: vp build
-        env:
-          BASE_URL: ${{ steps.pages.outputs.base_url }}
+        run: vp build --base=${{ steps.pages.outputs.base_path }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5.0.0
